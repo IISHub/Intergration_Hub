@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-yc8d)$aonsbi$uu!q1l2w#pwz9ceh($5!i0n#wgf%iiab$g#pe
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '34.132.18.46', # Google Cloud Compute Engine => PM4ML
+    '104.197.56.193', # Google Cloud Compute Engine => PM4ML
     '34.188.94.98', # Google Cloud Compute Engine => Miniloop
     '192.168.0.169', # IIS NOKIA-5551
     '192.168.0.124', # IIS MTN 5G
