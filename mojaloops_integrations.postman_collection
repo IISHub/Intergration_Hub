@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "8f59aeff-ad2d-4c31-a400-bb2e789aa71a",
+		"name": "Mojaloops",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23797875"
+	},
+	"item": [
+		{
+			"name": "test",
+			"item": [
+				{
+					"name": "send money",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\": {\r\n        \"displayName\": \"PayerFirst PayerLast\",\r\n        \"idType\": \"MSISDN\",\r\n        \"idValue\": \"22507008181\"\r\n    },\r\n    \"to\": {\r\n        \"idType\": \"MSISDN\",\r\n        \"idValue\": \"22556999125\"\r\n    },\r\n    \"amountType\": \"SEND\",\r\n    \"currency\": \"USD\",\r\n    \"amount\": \"100\",\r\n    \"transactionType\": \"TRANSFER\",\r\n    \"note\": \"test payment\",\r\n    \"homeTransactionId\": \"12277380-9d94-4a8a-b49e-0fac3b8b3565\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3003/sendmoney",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"sendmoney"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3-phase outbound",
+			"item": [
+				{
+					"name": "transfer P1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"homeTransactionId\": \"abc123\",\r\n    \"from\": {\r\n        \"idType\": \"MSISDN\",\r\n        \"idValue\": \"22507008181\"\r\n    },\r\n    \"to\": {\r\n        \"idType\": \"MSISDN\",\r\n        \"idValue\": \"22556999125\"\r\n    },\r\n    \"amountType\": \"SEND\",\r\n    \"currency\": \"USD\",\r\n    \"amount\": \"10\",\r\n    \"transactionType\": \"TRANSFER\",\r\n    \"note\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4001/transfers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4001",
+							"path": [
+								"transfers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transfer P2",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"acceptParty\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4001/transfers/b9c65534-eaae-42ff-9afd-0272bd98586f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4001",
+							"path": [
+								"transfers",
+								"b9c65534-eaae-42ff-9afd-0272bd98586f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transfer P3",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"acceptQuote\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4001/transfers/b9c65534-eaae-42ff-9afd-0272bd98586f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4001",
+							"path": [
+								"transfers",
+								"b9c65534-eaae-42ff-9afd-0272bd98586f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "integration",
+			"item": [
+				{
+					"name": "send money",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\": {\r\n        \"displayName\": \"PayerFirst PayerLast\",\r\n        \"idType\": \"MSISDN\",\r\n        \"idValue\": \"22507008181\"\r\n    },\r\n    \"to\": {\r\n        \"idType\": \"MSISDN\",\r\n        \"idValue\": \"22556999125\"\r\n    },\r\n    \"amountType\": \"SEND\",\r\n    \"currency\": \"USD\",\r\n    \"amount\": \"100\",\r\n    \"transactionType\": \"TRANSFER\",\r\n    \"note\": \"test payment\",\r\n    \"homeTransactionId\": \"12277380-9d94-4a8a-b49e-0fac3b8b3565\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://104.197.56.193:8000/mojaloops/sendmoney/",
+							"protocol": "http",
+							"host": [
+								"104",
+								"197",
+								"56",
+								"193"
+							],
+							"port": "8000",
+							"path": [
+								"mojaloops",
+								"sendmoney",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "parties",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender_name\":\"Thom Simbeye\",\r\n    \"sender_id_type\":\"MSISDN\",\r\n    \"sender_id_value\": \"22507008181\",\r\n    \"receiver_id_type\":\"MSISDN\",\r\n    \"receiver_id_value\": \"22556999125\",\r\n    \"currency\": \"ZMW\",\r\n    \"amount\": \"100\",\r\n    \"note\": \"test payment\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://104.197.56.193:8000/mojaloops/parties/",
+							"protocol": "http",
+							"host": [
+								"104",
+								"197",
+								"56",
+								"193"
+							],
+							"port": "8000",
+							"path": [
+								"mojaloops",
+								"parties",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "quotes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transfer_id\": \"cf7ba354-2594-419f-add2-81452c501e77\",\r\n    \"accept_receiver\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://104.197.56.193:8000/mojaloops/quotes/",
+							"protocol": "http",
+							"host": [
+								"104",
+								"197",
+								"56",
+								"193"
+							],
+							"port": "8000",
+							"path": [
+								"mojaloops",
+								"quotes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transfer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transfer_id\": \"cf7ba354-2594-419f-add2-81452c501e77\",\r\n    \"accept_charges\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://104.197.56.193:8000/mojaloops/transfer/",
+							"protocol": "http",
+							"host": [
+								"104",
+								"197",
+								"56",
+								"193"
+							],
+							"port": "8000",
+							"path": [
+								"mojaloops",
+								"transfer",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

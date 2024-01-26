@@ -7,7 +7,9 @@ This document outlines an example integration with the payment manager
 ### Endpoint:
 http://104.197.56.193:8000/mojaloops/parties/
 
-### Payload:
+Retrieves receiver information
+
+### Sample Payload:
 ```json
 {
     "sender_name":"Firstname Lastname",
@@ -21,7 +23,7 @@ http://104.197.56.193:8000/mojaloops/parties/
 }
 ```
 
-### Response
+### Sample Response (success)
 ```json
 {
     "first_name": "Chris",
@@ -40,7 +42,9 @@ http://104.197.56.193:8000/mojaloops/parties/
 ### Endpoint:
 http://104.197.56.193:8000/mojaloops/quotes/
 
-### Payload:
+Retrievies transaction charges
+
+### Sample Payload:
 ```json
 {
     "transfer_id": "850cbb1e-18d4-492c-86ce-dfa547d0f123",
@@ -48,7 +52,7 @@ http://104.197.56.193:8000/mojaloops/quotes/
 }
 ```
 
-### Response
+### Sample Response (success)
 ```json
 {
     "amount": "100",
@@ -59,12 +63,22 @@ http://104.197.56.193:8000/mojaloops/quotes/
 }
 ```
 
+### Sample Response (alternative response)
+If the ```accept_receiver``` is ```false``` or the reciever information was rejected.
+```json
+{
+    "transfer_state": "ABORTED"
+}
+```
+
 ## Transfer Endpoint
 
 ### Endpoint:
 http://104.197.56.193:8000/mojaloops/transfer/
 
-### Payload:
+Sends transfer confirmation
+
+### Sample Payload:
 ```json
 {
     "transfer_id": "850cbb1e-18d4-492c-86ce-dfa547d0f123",
@@ -72,9 +86,10 @@ http://104.197.56.193:8000/mojaloops/transfer/
 }
 ```
 
-### Response
+### Sample Response (success)
 ```json
 {
+    "sender_name":"Firstname Lastname",
     "sender_account_id": "22507008181",
     "receiver_first_name": "Chris",
     "receiver_middle_name": "N",
@@ -87,5 +102,13 @@ http://104.197.56.193:8000/mojaloops/transfer/
     "fsp_commision": "0.2",
     "receiving_amount": "99.7",
     "transfer_id": "850cbb1e-18d4-492c-86ce-dfa547d0f123"
+}
+```
+
+### Sample Response (alternative response)
+If the ```accept_charges``` is ```false``` or the transaction charges were rejected.
+```json
+{
+    "transfer_state": "ABORTED"
 }
 ```

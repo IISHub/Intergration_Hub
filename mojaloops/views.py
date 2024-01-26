@@ -93,13 +93,17 @@ def get_quote(request):
             response = requests.put(url=url, data=json.dumps(data), headers={"Content-Type": "application/json;charset=utf-8"})
 
             json_response = response.json();
-            extracted_data = {
-                "amount": json_response.get("quoteResponse", {}).get("body", {}).get("transferAmount", {}).get("amount"),
-                "fsp_fee": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspFee", {}).get("amount"),
-                "fsp_commision": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspCommission", {}).get("amount"),
-                "receiving_amount": json_response.get("quoteResponse", {}).get("body", {}).get("payeeReceiveAmount", {}).get("amount"),
-                "transfer_id": json_response.get("transferId")
-            }
+            currentState = json_response.get('currentState')
+            if currentState == 'ABORTED':
+                extracted_data = { "transfer_state": json_response.get('currentState')}
+            else:
+                extracted_data = {
+                    "amount": json_response.get("quoteResponse", {}).get("body", {}).get("transferAmount", {}).get("amount"),
+                    "fsp_fee": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspFee", {}).get("amount"),
+                    "fsp_commision": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspCommission", {}).get("amount"),
+                    "receiving_amount": json_response.get("quoteResponse", {}).get("body", {}).get("payeeReceiveAmount", {}).get("amount"),
+                    "transfer_id": json_response.get("transferId")
+                }
 
             return JsonResponse(extracted_data, status=response.status_code)
         except Exception as e:
@@ -121,20 +125,24 @@ def accept_or_decline_transfer(request):
             response = requests.put(url=url, data=json.dumps(data), headers={"Content-Type": "application/json;charset=utf-8"})
 
             json_response = response.json();
-            extracted_data = {
-                "sender_account_id": json_response.get("from", {}).get("idValue"),
-                "receiver_first_name": json_response.get("to", {}).get("firstName"),
-                "receiver_middle_name": json_response.get("to", {}).get("middleName"),
-                "receiver_last_name": json_response.get("to", {}).get("lastName"),
-                "receiver_fsp_id": json_response.get("to", {}).get("fspId"),
-                "receiver_account_id": json_response.get("to", {}).get("idValue"),
-                "currency": json_response.get("currency"),
-                "amount": json_response.get("amount"),
-                "fsp_fee": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspFee", {}).get("amount"),
-                "fsp_commision": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspCommission", {}).get("amount"),
-                "receiving_amount": json_response.get("quoteResponse", {}).get("body", {}).get("payeeReceiveAmount", {}).get("amount"),
-                "transfer_id": json_response.get("transferId")
-            }
+            currentState = json_response.get('currentState')
+            if currentState == 'ABORTED':
+                extracted_data = { "transfer_state": json_response.get('currentState')}
+            else:
+                extracted_data = {
+                    "sender_account_id": json_response.get("from", {}).get("idValue"),
+                    "receiver_first_name": json_response.get("to", {}).get("firstName"),
+                    "receiver_middle_name": json_response.get("to", {}).get("middleName"),
+                    "receiver_last_name": json_response.get("to", {}).get("lastName"),
+                    "receiver_fsp_id": json_response.get("to", {}).get("fspId"),
+                    "receiver_account_id": json_response.get("to", {}).get("idValue"),
+                    "currency": json_response.get("currency"),
+                    "amount": json_response.get("amount"),
+                    "fsp_fee": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspFee", {}).get("amount"),
+                    "fsp_commision": json_response.get("quoteResponse", {}).get("body", {}).get("payeeFspCommission", {}).get("amount"),
+                    "receiving_amount": json_response.get("quoteResponse", {}).get("body", {}).get("payeeReceiveAmount", {}).get("amount"),
+                    "transfer_id": json_response.get("transferId")
+                }
 
             return JsonResponse(extracted_data, status=response.status_code)
         except Exception as e:

@@ -1,0 +1,7 @@
+@startuml
+participant "Mobile App\n/USSD" as app
+participant "Integration Hub\nPISP" as PISP
+participant "Payment Manager\n/Third party SDK" as SDK
+autonumber 1 "<b>[0]"
+
+@enduml
