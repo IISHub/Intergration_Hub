@@ -1,9 +1,9 @@
 from django.urls import path
-from . import views
+from .views import payment_manager, central_ledger
 
 urlpatterns = [
-    path('sendmoney/', views.send_money),
-    path('parties/', views.get_party),
-    path('quotes/', views.get_quote),
-    path('transfer/', views.accept_or_decline_transfer),
+    path('sendmoney/', payment_manager.send_money),
+    path('parties/', payment_manager.get_party),
+    path('quotes/', payment_manager.get_quote),
+    path('transfer/', payment_manager.accept_or_decline_transfer),
 ]

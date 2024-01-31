@@ -205,13 +205,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://104.197.56.193:8000/mojaloops/parties/",
+							"raw": "http://127.0.0.1:8000/mojaloops/parties/",
 							"protocol": "http",
 							"host": [
-								"104",
-								"197",
-								"56",
-								"193"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
 							"port": "8000",
 							"path": [
@@ -230,7 +230,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transfer_id\": \"cf7ba354-2594-419f-add2-81452c501e77\",\r\n    \"accept_receiver\": true\r\n}",
+							"raw": "{\r\n    \"transfer_id\": \"0e1bd354-1052-4d93-ab82-1b9d5ffc7d33\",\r\n    \"accept_receiver\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -238,13 +238,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://104.197.56.193:8000/mojaloops/quotes/",
+							"raw": "http://127.0.0.1:8000/mojaloops/quotes/",
 							"protocol": "http",
 							"host": [
-								"104",
-								"197",
-								"56",
-								"193"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
 							"port": "8000",
 							"path": [
@@ -263,7 +263,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transfer_id\": \"cf7ba354-2594-419f-add2-81452c501e77\",\r\n    \"accept_charges\": true\r\n}",
+							"raw": "{\r\n    \"transfer_id\": \"0e1bd354-1052-4d93-ab82-1b9d5ffc7d33\",\r\n    \"accept_charges\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -271,13 +271,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://104.197.56.193:8000/mojaloops/transfer/",
+							"raw": "http://127.0.0.1:8000/mojaloops/transfer/",
 							"protocol": "http",
 							"host": [
-								"104",
-								"197",
-								"56",
-								"193"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
 							"port": "8000",
 							"path": [
@@ -290,6 +290,706 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Third party",
+			"item": [
+				{
+					"name": "GetLinkingProviders",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Central Ledger API",
+			"item": [
+				{
+					"name": "Retrieves information about all participants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://central-ledger.local/participants",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves limits information for all participants",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/limits",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"limits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates a participant in the Hub",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"IndoZambiaBank\",\r\n    \"currency\": \"USD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves limits information for a particular participant",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/limits",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"limits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates participant details (activates/deactivates a participant)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves information about a particular participant",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add a participants initial position and limit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currency\": \"USD\",\r\n    \"limit\": {\r\n        \"type\": \"NET_DEBIT_CAP\",\r\n        \"value\": 20000\r\n    },\r\n    \"initialPosition\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/initialPositionAndLimits",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"initialPositionAndLimits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adjusts limits for a particular participant",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currency\": \"USD\",\r\n    \"limit\": {\r\n        \"type\": \"NET_DEBIT_CAP\",\r\n        \"value\": 30000,\r\n        \"alarmPercentage\": 5\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/limits",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"limits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves information about the endpoints configured for a particular participant",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/endpoints",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"endpoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adds/updates endpoints for a particular participant",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"NET_DEBIT_CAP_ADJUSTMENT_EMAIL\",\r\n    \"value\": \"net_debit_cap@izb.co.za\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/endpoints",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"endpoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves the position of a particular participant",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/positions",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves the accounts and balances of a particular participant",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/accounts",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates accounts in the Hub",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currency\": \"USD\",\r\n    \"type\": \"HUB_MULTILATERAL_SETTLEMENT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/accounts",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Records Funds In or Out of a participant account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"transferId\": \"bfd38d14-893f-469d-a6ca-a312a0223949\", \r\n    \"externalReference\": \"660616\", \r\n    \"action\": \"recordFundsIn\", \r\n    \"reason\": \"settlement\", \r\n    \"amount\": { \r\n      \"amount\": \"5000\", \r\n      \"currency\": \"USD\" \r\n    }, \r\n    \"extensionList\": { \r\n      \"extension\": [ \r\n        { \r\n          \"key\": \"scheme\", \r\n          \"value\": \"abc\" \r\n        } \r\n      ] \r\n    } \r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/accounts/112",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"accounts",
+								"112"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates a participant account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/accounts/111",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"accounts",
+								"111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Records a transfer as a Funds In or Out transaction for a participant account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\": \"recordFundsOutCommit\",\r\n    \"reason\": \"fix\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/participants/IndoZambiaBank/accounts/112/transfers/bfd38d14-893f-469d-a6ca-a312a0223949",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"participants",
+								"IndoZambiaBank",
+								"accounts",
+								"112",
+								"transfers",
+								"bfd38d14-893f-469d-a6ca-a312a0223949"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves information about all settlement models",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://central-ledger.local/settlementModels",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"settlementModels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates a settlement model",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"name\": \"DEFERREDNET\", \r\n    \"settlementGranularity\": \"NET\", \r\n    \"settlementInterchange\": \"MULTILATERAL\", \r\n    \"settlementDelay\": \"DEFERRED\", \r\n    \"requireLiquidityCheck\": true, \r\n    \"ledgerAccountType\": \"POSITION\", \r\n    \"autoPositionReset\": true,\r\n    \"settlementAccountType\": \"SETTLEMENT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/settlementModels",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"settlementModels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves information about a particular settlement model",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://central-ledger.local/settlementModels/DEFERREDNET",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"settlementModels",
+								"DEFERREDNET"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates a settlement model (activates/deactivates a settlement model)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://central-ledger.local/settlementModels/DEFERREDNET",
+							"protocol": "http",
+							"host": [
+								"central-ledger",
+								"local"
+							],
+							"path": [
+								"settlementModels",
+								"DEFERREDNET"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "## Introduction\n\nThis document provides detailed information about the Central Ledger API. The Central Ledger API is a Mojaloop API enabling Hub Operators to manage admin processes around:\n\n- Creating/activating/deactivating participants in the Hub\n- Adding and updating participant endpoint information\n- Managing participant accounts, limits, and positions\n- Creating Hub accounts\n- Performing Funds In and Funds Out operations\n- Creating/updating/viewing settlement models\n- Retrieving transfer details\n    \n\nFor background information about the participant and settlement model details that the Hub Operator can administer using the Central Ledger API, see section [Basic concepts](https://docs.mojaloop.io/api/administration/central-ledger-api.html#basic-concepts).\n\n## Basic concepts\n\nTo provide context for the admin operations that the Central Ledger API enables, this section gives a brief definition of some basic concepts.\n\n### Participant\n\nEither the Hub itself or a Digital Financial Service Provider (DFSP) that is a participant in a Mojaloop scheme.\n\n### Endpoint\n\nThe DFSP callback URL where the Hub routes API callbacks. The URL specified is the endpoint set up in the outbound API gateway.\n\n### Limit\n\nCurrently, only one type of limit is supported, it is called \"_Net Debit Cap (NDC)_\". In the future, it is possible to add support for further types of limits.\n\nThe _Net Debit Cap_ represents the liquidity cover available for a specific account (the Position account). It is the total amount of good funds which the scheme attests are available to guarantee that a participant is able to settle the liabilities it incurs on the Position account as a consequence of transferring funds. This amount of good funds is represented as the balance of an account (the Settlement account), which is tied to the Position account by a settlement model. The source of the funds in this account can be either funds recorded by the scheme's administrators as having been deposited to or withdrawn from the Settlement account, or funds which are automatically credited to or debited from the account by the scheme if the account is the Settlement account for an immediate gross settlement model.\n\nIt should also be possible for a participant to specify that an amount, or a proportion, of the funds available in a Settlement account should be excluded from the Net Debit Cap calculation. In cases where a participant is a long-term net beneficiary of funds via settlement, or where participants keep extra funds in their Settlement account to cover periods when it may not be possible to deposit funds to those accounts, it may wish to exclude part of the balance of its Settlement account from use as cover for transfers.\n\n### Account\n\nAlso called _Ledger_. The Hub maintains a number of internal accounts to keep track of the movement of money (both e-money and real money) between DFSPs.\n\n### Position\n\nThe Position represents the net of:\n\n- transfers on that account which have cleared but have not yet settled, and\n- transfers on that account where:\n    - the DFSP is the debtor party, and\n    - the transfer has been accepted for processing by the Hub, but has not yet cleared.\n\nThe Position for a given account is always verifiably up to date.\n\nWhen a transfer is requested, the Hub will check that the DFSP has liquidity cover available on that account to cover the amount of the transfer. If it does not, the transfer will be rejected.\n\nWe currently allow liabilities to the participant which have been created as a consequence of transfers on the account where the participant is the beneficiary to reduce the participant's Position as if the liabilities had already been settled.\n\n### Funds In and Funds Out\n\nFunds In and Funds Out operations are used to track (in the Hub accounts) money movements related to deposits and withdrawals, as well as settlements.\n\nFunds In operations record either the deposit of money into a DFSP's settlement bank account or the settlement amount for a receiving DFSP.\n\nFunds Out operations record either the withdrawal of money from a DFSP's settlement bank account or the settlement amount for a sending DFSP.\n\n### Settlement model\n\nRefers to how settlement happens within a scheme. Settlement is the process of transferring funds from one DSFP to another, so that the payer's DFSP reimburses the payee's DFSP for funds given to the payee during a transaction. A settlement model specifies if participants settle with each other separately or settle with the scheme, whether transfers are settled one by one or as a batch, whether transfers are settled immediately or with a delay, and so on.\n\n[https://docs.mojaloop.io/api/administration/central-ledger-api.html#central-ledger-api](https://docs.mojaloop.io/api/administration/central-ledger-api.html#central-ledger-api)"
 		}
 	]
 }
