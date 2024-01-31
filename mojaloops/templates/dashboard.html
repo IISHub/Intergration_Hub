@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3">Participants</h1>
+    <a href="{% url 'create-participant' %}" class="btn btn-sm btn-primary">Add</a>
+</div>
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created</th>
+            <th>Activity</th>
+            <th>Accounts</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+        <tr>
+            <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
+            <td>{{participant.created}}</td>
+            <td>{% if participant.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</td>
+            <td>{% for account in participant.accounts %}{{account.ledgerAccountType}}, {% endfor %}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

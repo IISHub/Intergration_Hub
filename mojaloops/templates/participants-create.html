@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Add participant{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3">Add a new participant</h1>
+</div>
+<form action="{% url 'create-participant' %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <br>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+{% endblock %}

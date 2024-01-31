@@ -1,62 +1,45 @@
 import json
 import requests
 
-def get_all_participants(request):
-    pass
+from django.shortcuts import redirect, render
 
-def get_participants_limits(request):
-    pass
+from mojaloops.forms import CreateParticipantForm
+
+base_url = 'http://central-ledger.local'
+
+def get_participants(request):
+    endpoint = base_url + '/participants'
+
+    if request.method == 'GET':
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        participants = response.json();
+        context = {"participants": participants}
+        return render(request, "dashboard.html", context) 
 
 def create_participant(request):
-    pass
-
-def get_participant_limit(request, name):
-    pass
-
-def update_participant_activity(request, name):
-    pass
-
-def get_participant(request, name):
-    pass
-
-def add_initial_position_and_limit(request, name):
-    pass
-
-def adjust_participant_limits(request, name):
-    pass
-
-def retrieve_participant_endpoints(request, name):
-    pass
-
-def update_participant_endpoints(request, name):
-    pass
-
-def retrieve_participant_position(request, name):
-    pass
-
-def retrieve_participant_accounts_and_balance(request, name):
-    pass
-
-def create_participant_account(request, name):
-    pass
-
-def record_funds_in_or_out(request, name):
-    pass
-
-def update_participant_account(request, name):
-    pass
-
-def record_participant_a_transfer_as_a_funds_in_or_out(request, name):
-    pass
-
-def retrieve_all_settlement_models(request, name):
-    pass
-
-def create_settlement_model(request, name):
-    pass
-
-def get_settlement_model(request, name):
-    pass
-
-def update_settlement_model(request, name):
-    pass
+    endpoint = base_url + '/participants'
+    form = CreateParticipantForm()
+    context = {"form": form}
+    if request.method == 'POST':
+        form = CreateParticipantForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            currency = form.cleaned_data['currency']
+            post_data = {"name": name, "currency": currency}
+            response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(post_data))
+            if response.status_code == 201:
+                return redirect(f'/participants/{name}')
+            else:
+                return render(request, "participants-create.html", context)
+        else:
+            return render(request, "participants-create.html", context)
+    else:
+        return render(request, "participants-create.html", context)
+    
+def view_participant(request, name):
+    endpoint = base_url + '/participants/' + name
+    if request.method == 'GET':
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        participant = response.json();
+        context = {"participant": participant}
+        return render(request, "participant-view.html", context) 
