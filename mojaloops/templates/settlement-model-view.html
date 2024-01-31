@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Settlement Model {{ settlementmodel.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3">{{ settlementmodel.name }}</h1>
+</div>
+<table class="table">
+    <tbody>
+        <tr>
+            <th scope="row">Settlement Model ID</th>
+            <td>{{ settlementmodel.settlementModelId }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Name</th>
+            <td>{{ settlementmodel.name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Is Active</th>
+            <td>{% if settlementmodel.isActive == 1 %}True{% else %}False{% endif %}</td>
+        </tr>
+        <tr>
+            <th scope="row">Settlement Granularity</th>
+            <td>{{ settlementmodel.settlementGranularity }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Settlement Interchange</th>
+            <td>{{ settlementmodel.settlementInterchange }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Settlement Delay</th>
+            <td>{{ settlementmodel.settlementDelay }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Require Liquidity Check</th>
+            <td>{{ settlementmodel.requireLiquidityCheck }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Ledger Account Type ID</th>
+            <td>{{ settlementmodel.ledgerAccountTypeId }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Auto Position Reset</th>
+            <td>{{ settlementmodel.autoPositionReset }}</td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock %}

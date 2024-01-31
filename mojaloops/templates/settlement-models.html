@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Settlement Models{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3">Settlement Models</h1>
+    <a href="{% url 'create-settlement-model' %}" class="btn btn-sm btn-primary">Add</a>
+</div>
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Granularity</th>
+            <th>Interchange</th>
+            <th>Delay</th>
+            <th>Liquidity Check</th>
+            <th>Ledger Account Type</th>
+            <th>Position Reset</th>
+            <th>Settlement Account Type</th>
+            <th>Activity</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for settlementmodel in settlementmodels %}
+        <tr>
+            <td><a href="{% url 'get-settlement-model' settlementmodel.name %}" class="">{{settlementmodel.name}}</a></td>
+            <td>{{settlementmodel.settlementGranularity}}</td>
+            <td>{{settlementmodel.settlementInterchange}}</td>
+            <td>{{settlementmodel.settlementDelay}}</td>
+            <td>{{settlementmodel.requireLiquidityCheck}}</td>
+            <td>{{settlementmodel.ledgerAccountType}}</td>
+            <td>{{settlementmodel.autoPositionReset}}</td>
+            <td>{{settlementmodel.settlementAccountType}}</td>
+            <td>{% if settlementmodel.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -3,9 +3,12 @@ import requests
 
 from django.shortcuts import redirect, render
 
-from mojaloops.forms import CreateParticipantForm
+from mojaloops.forms import CreateParticipantForm, LimitForm, SettlementModelsForm
 
 base_url = 'http://central-ledger.local'
+
+def dashboard(request):
+    return render(request, "dashboard.html", {}) 
 
 def get_participants(request):
     endpoint = base_url + '/participants'
@@ -14,7 +17,7 @@ def get_participants(request):
         response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
         participants = response.json();
         context = {"participants": participants}
-        return render(request, "dashboard.html", context) 
+        return render(request, "participants.html", context) 
     
 def get_participants_limits(request):
     endpoint = base_url + '/participants/limits'
@@ -28,11 +31,11 @@ def get_participants_limits(request):
 
 def create_participant(request):
     endpoint = base_url + '/participants'
-    form = CreateParticipantForm()
-    context = {"form": form}
 
     if request.method == 'POST':
         form = CreateParticipantForm(request.POST)
+        context = {"form": form}
+
         if form.is_valid():
             name = form.cleaned_data['name']
             currency = form.cleaned_data['currency']
@@ -41,12 +44,30 @@ def create_participant(request):
             if response.status_code == 201:
                 return redirect(f'/participants/{name}')
             else:
-                return render(request, "participant-form", context)
+                json_response = response.json();
+                context.append({'error': json_response.get("errorInformation", {}).get("errorDescription")})
+                return render(request, "participant-form.html", context)
         else:
-            return render(request, "participant-form", context)
+            return render(request, "participant-form.html", context)
     else:
-        return render(request, "participant-form", context)
-    
+        form = CreateParticipantForm()
+        context = {"form": form}
+        return render(request, "participant-form.html", context)
+
+def view_participant(request, name):
+    if request.method == 'GET':
+        endpoint = base_url + '/participants/' + name
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        participant = response.json();
+
+        endpoint = base_url + '/participants/' + name + '/limits'
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        limits = response.json();
+        context = {"participant": participant, "limits": limits}
+
+        return render(request, "participant-view.html", context) 
+
+
 def update_participant_activity(request, name, activity):
     endpoint = base_url + '/participants/' + name
 
@@ -54,3 +75,93 @@ def update_participant_activity(request, name, activity):
         put_data = {"isActive": activity}
         requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
         return redirect(f'/participants/{name}')
+    
+def update_participant_limit(request, name):
+    endpoint = base_url + '/participants/' + name + '/limits'
+
+    if request.method == 'POST':
+        form = LimitForm(request.POST)
+
+        put_data = {
+            "currency": form.clean_data['currency'],
+            "limit": {
+                "type": form.clean_data['limit_type'],
+                "value": form.clean_data['limit_value'],
+                "alarmPercentage": form.clean_data['alarm_percentage']
+            }
+        }
+        response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+        if response.status_code == 200:
+            return redirect(f'/participants/{name}')
+        else:
+            json_response = response.json();
+            context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
+            return render(request, "participant-view.html", context)
+        
+def get_participants_endpoint(request, name):
+    endpoint = base_url + '/participants/' + name + '/endpoints'
+
+    if request.method == 'GET':
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        endpoints = response.json();
+        context = {"endpoints": endpoints}
+        return render(request, "participant-endpoints.html", context) 
+
+def get_settlement_models(request):
+    endpoint = base_url + '/settlementModels'
+
+    if request.method == 'GET':
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        settlementmodels = response.json();
+        context = {"settlementmodels": settlementmodels}
+        return render(request, "settlement-models.html", context)     
+
+def create_settlement_model(request):
+    endpoint = base_url + '/settlementModels'
+
+    if request.method == 'POST':
+        form = SettlementModelsForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            
+            post_data = {
+                "name": form.cleaned_data["name"],
+                "settlementGranularity": form.cleaned_data["settlementGranularity"],
+                "settlementIntercharge": form.cleaned_data["settlementIntercharge"],
+                "settlementDelay": form.cleaned_data["settlementDelay"],
+                "requiredLiquidityCheck": form.cleaned_data["requiredLiquidityCheck"],
+                "ledgerAccountType": form.cleaned_data["ledgerAccountType"],
+                "autoPositionReset": form.cleaned_data["autoPositionReset"],
+                "settlementAccountType": form.cleaned_data["settlementAccountType"],
+            }
+
+            response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(post_data))
+            if response.status_code == 201:
+                return redirect(f'/settlementmodel/{name}')
+            else:
+                json_response = response.json();
+                context = {"form": form}
+                context.append({'error': json_response.get("errorInformation", {}).get("errorDescription")})
+                return render(request, "settlement-model-form.html", context)
+    else:
+        form = SettlementModelsForm()
+        context = {"form": form}
+        return render(request, "settlement-model-form.html", context)
+            
+def view_settlement_model(request, name):
+    endpoint = base_url + '/settlementModels/' + name
+
+    if request.method == 'GET':
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        settlementmodel = response.json();
+        context = {"settlementmodel": settlementmodel}
+        return render(request, "settlement-model-view.html", context) 
+
+            
+def update_settlement_model_activity(request, name, activity):
+    endpoint = base_url + '/settlementModels/' + name
+
+    if request.method == 'GET':
+        put_data = {"isActive": activity}
+        requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+        return redirect(f'/settlementmodel/{name}')

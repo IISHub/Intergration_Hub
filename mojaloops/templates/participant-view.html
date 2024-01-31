@@ -7,25 +7,55 @@
     <h1 class="h3">{{participant.name}}</h1>
     
 </div>
-<div>
-    <h3 class="h5">Created: {{participant.created}}</h3>
-    <h3 class="h5">Activity: {% if participant.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</h3>
-</div>
+<p><strong>ID:</strong> {{ participant.id }}</p>
+<p><strong>Created:</strong> {{ participant.created }}</p>
+<p><strong>Is Active:</strong> {% if participant.isActive == 1 %}True{% else %}False{% endif %}</p>
 <h5>Accounts</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ledger Account Type</th>
+            <th>Currency</th>
+            <th>Is Active</th>
+            <th>Created Date</th>
+            <th>Created By</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for account in participant.accounts %}
+        <tr>
+            <td>{{ account.id }}</td>
+            <td>{{ account.ledgerAccountType }}</td>
+            <td>{{ account.currency }}</td>
+            <td>{% if account.isActive == 1 %}True{% else %}False{% endif %}</td>
+            <td>{{ account.createdDate }}</td>
+            <td>{{ account.createdBy }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 <hr>
-{% for account in participant.accounts %}
-    <p>Type: {{account.ledgerAccountType}}</p>
-    <p>ID: {{account.id}}</p>
-    <p>Currency: {{account.currency}}</p>
-    <hr>
-{% endfor %}
 <h5>Limits</h5>
 <hr>
-{% for limit in limits %}
-    <p>Type: {{limit.type}}</p>
-    <p>value: {{limit.value}}</p>
-    <p>Alarm Percentage: {{limit.alarmPercentage}}</p>
-    <hr>
-{% endfor %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Currency</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Alarm Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for limit in limits %}
+        <tr>
+            <td>{{ limit.currency }}</td>
+            <td>{{ limit.limit.type }}</td>
+            <td>{{ limit.limit.value }}</td>
+            <td>{{ limit.limit.alarmPercentage }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
