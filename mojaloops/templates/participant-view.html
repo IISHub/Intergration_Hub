@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Add participant{% endblock %}
+{% block title %}{{participant.name}}{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -11,11 +11,21 @@
     <h3 class="h5">Created: {{participant.created}}</h3>
     <h3 class="h5">Activity: {% if participant.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</h3>
 </div>
-<table class="table table-bordered">
-    <th colspan="3">Accounts</th>
-    <tr>
-      <td>This is row one, column 1</td>
-      <td>This is row one, column 2</td>
-    </tr>
-  </table>
+<h5>Accounts</h5>
+<hr>
+{% for account in participant.accounts %}
+    <p>Type: {{account.ledgerAccountType}}</p>
+    <p>ID: {{account.id}}</p>
+    <p>Currency: {{account.currency}}</p>
+    <hr>
+{% endfor %}
+<h5>Limits</h5>
+<hr>
+{% for limit in limits %}
+    <p>Type: {{limit.type}}</p>
+    <p>value: {{limit.value}}</p>
+    <p>Alarm Percentage: {{limit.alarmPercentage}}</p>
+    <hr>
+{% endfor %}
+
 {% endblock %}

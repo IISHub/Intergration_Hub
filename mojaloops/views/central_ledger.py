@@ -30,6 +30,7 @@ def create_participant(request):
     endpoint = base_url + '/participants'
     form = CreateParticipantForm()
     context = {"form": form}
+
     if request.method == 'POST':
         form = CreateParticipantForm(request.POST)
         if form.is_valid():
@@ -40,17 +41,16 @@ def create_participant(request):
             if response.status_code == 201:
                 return redirect(f'/participants/{name}')
             else:
-                return render(request, "participants-create.html", context)
+                return render(request, "participant-form", context)
         else:
-            return render(request, "participants-create.html", context)
+            return render(request, "participant-form", context)
     else:
-        return render(request, "participants-create.html", context)
+        return render(request, "participant-form", context)
     
-def view_participant(request, name):
+def update_participant_activity(request, name, activity):
     endpoint = base_url + '/participants/' + name
+
     if request.method == 'GET':
-        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
-        participant = response.json()
-        context = {"participant": participant}
-        return render(request, "participant-view.html", context) 
-    
+        put_data = {"isActive": activity}
+        requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+        return redirect(f'/participants/{name}')
