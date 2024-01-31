@@ -15,6 +15,16 @@ def get_participants(request):
         participants = response.json();
         context = {"participants": participants}
         return render(request, "dashboard.html", context) 
+    
+def get_participants_limits(request):
+    endpoint = base_url + '/participants/limits'
+
+    if request.method == 'GET':
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        participants = response.json();
+        context = {"participants": participants}
+        return render(request, "participant-limits.html", context) 
+
 
 def create_participant(request):
     endpoint = base_url + '/participants'
@@ -40,6 +50,7 @@ def view_participant(request, name):
     endpoint = base_url + '/participants/' + name
     if request.method == 'GET':
         response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
-        participant = response.json();
+        participant = response.json()
         context = {"participant": participant}
         return render(request, "participant-view.html", context) 
+    
