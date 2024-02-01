@@ -20,8 +20,11 @@
     <a href="{% url "update-participant-activity" name=participant.name activity='true' %}" class="btn btn-sm btn-success">Activate</a>
     {% endif %}
 </div>
-<br>
-<h5>Accounts</h5>
+<hr class="mt-5">
+<div class="d-flex justify-content-between">
+    <h5>Accounts</h5>
+    <a href="{% url "create-participant-account" name=participant.name %}" class="btn btn-sm btn-info">Add</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -39,7 +42,13 @@
             <td>{{ account.currency }}</td>
             <td>{% if account.isActive == 1 %}True{% else %}False{% endif %}</td>
             <td>{{ account.createdDate }}</td>
-            <td><a href="" class="btn btn-sm btn-info">Update</a></td>
+            <td>
+                {% if account.isActive == 1 %}
+                <a href="{% url "update-account-activity" name=participant.name id=account.id activity='false' %}" class="btn btn-sm btn-danger">Deactivate</a>
+                {% else %}
+                <a href="{% url "update-account-activity" name=participant.name id=account.id activity='true' %}" class="btn btn-sm btn-success">Activate</a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
@@ -72,7 +81,10 @@
     </tbody>
 </table>
 <br>
-<h5>Endpoints</h5>
+<div class="d-flex justify-content-between">
+    <h5>Endpoints</h5>
+    <a href="{% url "create-participant-endpoint" name=participant.name %}" class="btn btn-sm btn-info">Add</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -86,7 +98,7 @@
         <tr>
             <td>{{ endpoint.type }}</td>
             <td>{{ endpoint.value }}</td>
-            <td><a href="" class="btn btn-sm btn-info">Update</a></td>
+            <td><a href="{% url "update-participant-endpoint" name=participant.name endpoint_type=endpoint.type %}" class="btn btn-sm btn-info">Update</a></td>
         </tr>
         {% endfor %}
     </tbody>

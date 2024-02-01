@@ -14,8 +14,14 @@ urlpatterns = [
     path('participant/<str:name>', central_ledger.view_participant, name="get-participant"),
     path('participant/<str:name>/activity/<str:activity>', central_ledger.update_participant_activity, name="update-participant-activity"),
 
+    path('participant/<str:name>/accounts', central_ledger.add_participant_account, name="create-participant-account"),
+    path('participant/<str:name>/accounts/<int:id>/activity/<str:activity>', central_ledger.update_participant_account_activity, name="update-account-activity"),
+
     path('participant/<str:name>/limits/create', central_ledger.add_participant_limit, name="create-participant-limit"),
     path('participant/<str:name>/limits/<str:limit_type>', central_ledger.update_participant_limit, name="update-participant-limit"),
+
+    path('participant/<str:name>/endpoint/create', central_ledger.add_participant_endpoint, name="create-participant-endpoint"),
+    path('participant/<str:name>/endpoint/<str:endpoint_type>', central_ledger.update_participant_endpoint, name="update-participant-endpoint"),
 
     path('settlementmodels', central_ledger.get_settlement_models, name="settlement-models"),
     path('settlementmodel/create', central_ledger.create_settlement_model, name="create-settlement-model"),
