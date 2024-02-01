@@ -27,29 +27,47 @@
       </div>
     </div>
 </div>
-<table id="datatable" class="display" style="width:100%">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Created</th>
-            <th>Activity</th>
-            <th>Accounts</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for participant in participants %}
-        <tr>
-            <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
-            <td>{{participant.created}}</td>
-            <td>{% if participant.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</td>
-            <td>{% for account in participant.accounts %}{{account.ledgerAccountType}}, {% endfor %}</td>
-            <td></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+
+<div class="datatables">
+  <!-- basic table -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="scroll_hor" class="table border table-striped table-bordered text-nowrap">
+              <thead>
+                <!-- start row -->
+                <tr>
+                  <th>Name</th>
+                  <th>Created</th>
+                  <th>Activity</th>
+                  <th>Accounts</th>
+                  <th>Actions</th>
+                </tr>
+                <!-- end row -->
+              </thead>
+              <tbody>
+                {% for participant in participants %}
+                  <tr>
+                      <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
+                      <td>{{participant.created}}</td>
+                      <td>{% if participant.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</td>
+                      <td>{% for account in participant.accounts %}{{account.ledgerAccountType}}, {% endfor %}</td>
+                      <td></td>
+                  </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   $('datatable').DataTable();
 </script>
+
 {% endblock %}

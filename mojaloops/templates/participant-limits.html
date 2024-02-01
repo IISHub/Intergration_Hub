@@ -27,31 +27,47 @@
       </div>
     </div>
 </div>
-<table id="datatable" class="display" style="width:100%">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Currency</th>
-            <th>Type</th>
-            <th>Value</th>
-            <th>Alarm Percentage</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for participant in participants %}
-        <tr>
-            <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
-            <td>{{participant.currency}}</td>
-            <td>{{participant.limit.type}}</td>
-            <td>{{participant.limit.value}}</td>
-            <td>{{participant.limit.alarmPercentage}}</td>
-            <td><a href="{% url "update-participant-limit" name=participant.name limit_type=participant.limit.type %}" class="btn btn-sm btn-info">Update</a></td>
-            <td></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+
+<div class="datatables">
+    <!-- basic table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="scroll_hor" class="table border table-striped table-bordered text-nowrap">
+                <thead>
+                  <!-- start row -->
+                  <tr>
+                    <th>Name</th>
+                    <th>Currency</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Alarm Percentage</th>
+                    <th>Actions</th>
+                </tr>
+                  <!-- end row -->
+                </thead>
+                <tbody>
+                    {% for participant in participants %}
+                    <tr>
+                        <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
+                        <td>{{participant.currency}}</td>
+                        <td>{{participant.limit.type}}</td>
+                        <td>{{participant.limit.value}}</td>
+                        <td>{{participant.limit.alarmPercentage}}</td>
+                        <td><a href="{% url "update-participant-limit" name=participant.name limit_type=participant.limit.type %}" class="btn btn-sm btn-info">Update</a></td>        
+                    </tr>
+                    {% endfor %}
+  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <script>
   $('datatable').DataTable();
 </script>
