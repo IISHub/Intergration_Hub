@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{form_type}} Participant's Endpoint{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3">{{form_type}} a participant's endpoint</h1>
+</div>
+<form {% if form_type == "Update" %} action="{% url 'update-participant-endpoint' name=participant_name endpoint_type=endpoint_type %}" {% else %} action="{% url 'create-participant-endpoint' name=participant_name %}" {% endif %} method="post">
+    {% csrf_token %}
+    {{form|crispy}}
+    <br>
+    <button type="submit" class="btn btn-primary">{{form_type}}</button>
+</form>
+{% endblock %}
