@@ -1,14 +1,33 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h3">Participants</h1>
-    <a href="{% url 'create-participant' %}" class="btn btn-sm btn-primary">Add</a>
+<div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+    <div class="card-body px-4 py-3">
+      <div class="row align-items-center">
+        <div class="col-9">
+          <h4 class="fw-semibold mb-8">Participants Limits</h4>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a class="text-muted text-decoration-none" href="{% url "dashboard" %}">Home</a>
+              </li>
+              <li class="breadcrumb-item" aria-current="page">Participants Limits</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-3">
+          <div class="text-center mb-n5">
+            <img src="../assets/images/breadcrumb/ChatBc.png" alt="" class="img-fluid mb-n4">
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
-<table id="example" class="display" style="width:100%">
+<table id="datatable" class="display" style="width:100%">
     <thead>
         <tr>
             <th>Name</th>
@@ -16,6 +35,7 @@
             <th>Type</th>
             <th>Value</th>
             <th>Alarm Percentage</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -26,9 +46,13 @@
             <td>{{participant.limit.type}}</td>
             <td>{{participant.limit.value}}</td>
             <td>{{participant.limit.alarmPercentage}}</td>
+            <td><a href="{% url "update-participant-limit" name=participant.name limit_type=participant.limit.type %}" class="btn btn-sm btn-info">Update</a></td>
             <td></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<script>
+  $('datatable').DataTable();
+</script>
 {% endblock %}

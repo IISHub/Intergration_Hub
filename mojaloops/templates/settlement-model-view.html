@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Settlement Model {{ settlementmodel.name }}{% endblock %}
 
 {% block content %}
@@ -10,41 +12,47 @@
     <tbody>
         <tr>
             <th scope="row">Settlement Model ID</th>
-            <td>{{ settlementmodel.settlementModelId }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Name</th>
-            <td>{{ settlementmodel.name }}</td>
+            <td colspan="5">{{ settlementmodel.settlementModelId }}</td>
         </tr>
         <tr>
             <th scope="row">Is Active</th>
-            <td>{% if settlementmodel.isActive == 1 %}True{% else %}False{% endif %}</td>
+            <td colspan="5">{% if settlementmodel.isActive == 1 %}True{% else %}False{% endif %}</td>
         </tr>
         <tr>
             <th scope="row">Settlement Granularity</th>
-            <td>{{ settlementmodel.settlementGranularity }}</td>
+            <td colspan="5">{{ settlementmodel.settlementGranularity }}</td>
         </tr>
         <tr>
             <th scope="row">Settlement Interchange</th>
-            <td>{{ settlementmodel.settlementInterchange }}</td>
+            <td colspan="5">{{ settlementmodel.settlementInterchange }}</td>
         </tr>
         <tr>
             <th scope="row">Settlement Delay</th>
-            <td>{{ settlementmodel.settlementDelay }}</td>
+            <td colspan="5">{{ settlementmodel.settlementDelay }}</td>
         </tr>
         <tr>
             <th scope="row">Require Liquidity Check</th>
-            <td>{{ settlementmodel.requireLiquidityCheck }}</td>
+            <td colspan="5">{{ settlementmodel.requireLiquidityCheck }}</td>
         </tr>
         <tr>
             <th scope="row">Ledger Account Type ID</th>
-            <td>{{ settlementmodel.ledgerAccountTypeId }}</td>
+            <td colspan="5">{{ settlementmodel.ledgerAccountTypeId }}</td>
         </tr>
         <tr>
             <th scope="row">Auto Position Reset</th>
-            <td>{{ settlementmodel.autoPositionReset }}</td>
+            <td colspan="5">{{ settlementmodel.autoPositionReset }}</td>
         </tr>
     </tbody>
 </table>
+<br>
+<div class="d-flex justify-content-between">
+    <a href="" class="btn btn-sm btn-info">Update</a>
+    {% if settlementmodel.isActive == 1 %}
+    <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='false' %}" class="btn btn-sm btn-danger">Deactivate</a>
+    {% else %}
+    <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='true' %}" class="btn btn-sm btn-success">Activate</a>
+    {% endif %}
+</div>
+<br>
 
 {% endblock %}

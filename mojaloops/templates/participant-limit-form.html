@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{form_type}} Participant's Limit{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3">{{form_type}} a participant's limit</h1>
+</div>
+<form {% if form_type == "Update" %} action="{% url 'update-participant-limit' name=participant_name limit_type=limit %}" {% else %} action="{% url 'create-participant-limit' name=participant_name %}" {% endif %} method="post">
+    {% csrf_token %}
+    {{form|crispy}}
+    <br>
+    <button type="submit" class="btn btn-primary">{{form_type}}</button>
+</form>
+{% endblock %}

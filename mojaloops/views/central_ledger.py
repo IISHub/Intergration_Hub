@@ -63,7 +63,12 @@ def view_participant(request, name):
         endpoint = base_url + '/participants/' + name + '/limits'
         response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
         limits = response.json();
-        context = {"participant": participant, "limits": limits}
+
+        endpoint = base_url + '/participants/' + name + '/endpoints'
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        endpoints = response.json();
+
+        context = {"participant": participant, "limits": limits, "endpoints": endpoints}
 
         return render(request, "participant-view.html", context) 
 
@@ -76,7 +81,7 @@ def update_participant_activity(request, name, activity):
         requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
         return redirect(f'/participants/{name}')
     
-def update_participant_limit(request, name):
+def add_participant_limit(request, name):
     endpoint = base_url + '/participants/' + name + '/limits'
 
     if request.method == 'POST':
@@ -97,15 +102,47 @@ def update_participant_limit(request, name):
             json_response = response.json();
             context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
             return render(request, "participant-view.html", context)
-        
-def get_participants_endpoint(request, name):
-    endpoint = base_url + '/participants/' + name + '/endpoints'
+    else:
+        form = LimitForm()
+        context = {"form": form, "participant_name": name, "form_type":"Add"}
+        return render(request, "participant-limit-form.html", context)
+    
+def update_participant_limit(request, name, limit_type):
+    endpoint = base_url + '/participants/' + name + '/limits'
 
-    if request.method == 'GET':
+    if request.method == 'POST':
+        form = LimitForm(request.POST)
+
+        put_data = {
+            "currency": form.clean_data['currency'],
+            "limit": {
+                "type": form.clean_data['limit_type'],
+                "value": form.clean_data['limit_value'],
+                "alarmPercentage": form.clean_data['alarm_percentage']
+            }
+        }
+        response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+        if response.status_code == 200:
+            return redirect(f'/participants/{name}')
+        else:
+            json_response = response.json();
+            context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
+            return render(request, "participant-view.html", context)
+    else:
         response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
-        endpoints = response.json();
-        context = {"endpoints": endpoints}
-        return render(request, "participant-endpoints.html", context) 
+        limits = response.json();
+        for participant_limit in limits:
+            if participant_limit.get('limit', {}).get('type') == limit_type:
+                initial_data = {
+                    "current": participant_limit.get('currency'),
+                    "limit_type": participant_limit.get('limit', {}).get('type'),
+                    "limit_value": participant_limit.get('limit', {}).get('value'),
+                    "alarm_percentage": participant_limit.get('limit', {}).get('alarmPercentage')
+                }
+        
+        form = LimitForm(initial=initial_data)
+        context = {"form": form, "participant_name": name, "limit": limit_type, "form_type":"Update"}
+        return render(request, "participant-limit-form.html", context)
 
 def get_settlement_models(request):
     endpoint = base_url + '/settlementModels'
@@ -164,4 +201,4 @@ def update_settlement_model_activity(request, name, activity):
     if request.method == 'GET':
         put_data = {"isActive": activity}
         requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        return redirect(f'/settlementmodel/{name}')
+        return redirect(f'/mojaloops/settlementmodel/{name}')
