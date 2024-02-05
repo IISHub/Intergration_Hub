@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('participant/<str:name>/accounts', central_ledger.add_participant_account, name="create-participant-account"),
     path('participant/<str:name>/accounts/<int:id>/activity/<str:activity>', central_ledger.update_participant_account_activity, name="update-account-activity"),
+    path('participant/<str:name>/accounts/<int:id>', central_ledger.record_participant_transfer, name="record-participant-transfer"),
 
     path('participant/<str:name>/limits/create', central_ledger.add_participant_limit, name="create-participant-limit"),
     path('participant/<str:name>/limits/<str:limit_type>', central_ledger.update_participant_limit, name="update-participant-limit"),
