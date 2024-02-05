@@ -11,6 +11,8 @@
     <h1 class="h3">{{form_type}} a participant's limit</h1>
 </div>
 <form {% if form_type == "Update" %} action="{% url 'update-participant-limit' name=participant_name limit_type=limit %}" {% else %} action="{% url 'create-participant-limit' name=participant_name %}" {% endif %} method="post">
+    {% if error %}<div class="alert alert-warning" role="alert">{{error}}</div>{% endif %}
+    
     {% csrf_token %}
     {{form|crispy}}
     <br>

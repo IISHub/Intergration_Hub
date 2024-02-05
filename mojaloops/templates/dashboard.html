@@ -2,9 +2,12 @@
 
 {% load static %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
-<h1>Inclusive, Equitable Financial Services For All<h1>
-<p>Mojaloop open source software lowers the cost to build, maintain and modify an inclusive instant payment system (IIPS) that brings affordable, connected digital financial services to anyone with access to a mobile phone.</p>
+<div class="card">
+    <div class="card-body">
+        {{health}}
+    </div>
+</div>
 {% endblock %}

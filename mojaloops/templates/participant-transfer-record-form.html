@@ -4,15 +4,15 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}{{form_type}} Participant's Account{% endblock %}
+{% block title %}{{form_type}} Participant's Transfer{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h3">{{form_type}} a participant's account</h1>
+    <h1 class="h3">{{form_type}} a participant's transfer</h1>
 </div>
-<form action="{% url 'create-participant-account' name=participant_name %}"  method="post">
+<form action="{% url 'record-participant-transfer' name=name id=account %}" method="post">
     {% if error %}<div class="alert alert-warning" role="alert">{{error}}</div>{% endif %}
-
+    
     {% csrf_token %}
     {{form|crispy}}
     <br>

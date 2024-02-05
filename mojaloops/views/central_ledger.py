@@ -3,12 +3,18 @@ import requests
 
 from django.shortcuts import redirect, render
 
-from mojaloops.forms import CreateParticipantForm, HubAccountForm, LimitForm, ParticipantEndpointForm, SettlementModelsForm
+from mojaloops.forms import CreateParticipantForm, HubAccountForm, LimitForm, ParticipantEndpointForm, RecordTransactionForm, SettlementModelsForm
 
 base_url = 'http://central-ledger.local'
 
 def dashboard(request):
-    return render(request, "dashboard.html", {}) 
+    endpoint = base_url + '/health'
+
+    if request.method == 'GET':
+        response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
+        health = response.json();
+        context = {"health": health}
+        return render(request, "dashboard.html", context) 
 
 def get_participants(request):
     endpoint = base_url + '/participants'
@@ -34,7 +40,6 @@ def create_participant(request):
 
     if request.method == 'POST':
         form = CreateParticipantForm(request.POST)
-        context = {"form": form}
 
         if form.is_valid():
             name = form.cleaned_data['name']
@@ -45,7 +50,8 @@ def create_participant(request):
                 return redirect(f'/mojaloops/participants/{name}')
             else:
                 json_response = response.json();
-                context.append({'error': json_response.get("errorInformation", {}).get("errorDescription")})
+                form = CreateParticipantForm(initial=request.POST)
+                context = {"form":form, "name":form.cleaned_data['name'], "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
                 return render(request, "participant-form.html", context)
         else:
             return render(request, "participant-form.html", context)
@@ -87,17 +93,19 @@ def add_participant_account(request, name):
     if request.method == 'POST':
         form = HubAccountForm(request.POST)
 
-        put_data = {
-            "currency": form.clean_data['type'],
-            "type": form.clean_data['value'],
-        }
-        response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        if response.status_code == 200:
-            return redirect(f'/mojaloops/participants/{name}')
-        else:
-            json_response = response.json();
-            context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
-            return redirect(f'/mojaloops/participants/{name}')
+        if form.is_valid():
+            put_data = {
+                "currency": form.cleaned_data['currency'],
+                "type": form.cleaned_data['value'],
+            }
+            response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+            if response.status_code == 200:
+                return redirect(f'/mojaloops/participants/{name}')
+            else:
+                json_response = response.json();
+                form = HubAccountForm(initial=request.POST)
+                context = {"form":form, "name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
+                return render(request, "participant-account-form.html", context)
     else:
         form = HubAccountForm()
         context = {"form": form, "participant_name": name, "form_type":"Add"}
@@ -110,28 +118,69 @@ def update_participant_account_activity(request, name, id, activity):
         put_data = {"isActive": activity}
         requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
         return redirect(f'/mojaloops/participants/{name}')
+    
+def record_participant_transfer(request, name, id):
+    endpoint = base_url + '/participants/' + name + '/accounts/' + str(id) 
 
+    if request.method == 'POST':
+        form = RecordTransactionForm(request.POST)
+
+        if form.is_valid():
+            post_data = {
+                "transferID": form.cleaned_data['transfer_id'],
+                "externalReferences": form.cleaned_data['external_references'],
+                "action": form.cleaned_data['action'],
+                "reason": form.cleaned_data['reason'],
+                "amount": {
+                    "amount": form.cleaned_data['amount'],
+                    "currency": form.cleaned_data['currency'],
+                },
+                "extensionList": {
+                    "extension": [
+                        {
+                            "key": "scheme",
+                            "value": "abc"
+                        }
+                    ]
+                }
+            }
+
+            response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(post_data))
+            if response.status_code == 200:
+                return redirect(f'/mojaloops/participants/{name}')
+            else:
+                json_response = response.json();
+                form = RecordTransactionForm(initial=request.POST)
+                context = {"form":form, "name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
+                return render(request, "participant-transfer-record-form.html", context)
+    else:
+        form = RecordTransactionForm()
+        context = {"form":form, "name":name, "account":id, "form_type":"Record"}
+        return render(request, "participant-transfer-record-form.html", context)
+        
 def add_participant_limit(request, name):
     endpoint = base_url + '/participants/' + name + '/limits'
 
     if request.method == 'POST':
         form = LimitForm(request.POST)
 
-        put_data = {
-            "currency": form.clean_data['currency'],
-            "limit": {
-                "type": form.clean_data['limit_type'],
-                "value": form.clean_data['limit_value'],
-                "alarmPercentage": form.clean_data['alarm_percentage']
+        if form.is_valid():
+            put_data = {
+                "currency": form.cleaned_data['currency'],
+                "limit": {
+                    "type": form.cleaned_data['limit_type'],
+                    "value": form.cleaned_data['limit_value'],
+                    "alarmPercentage": form.cleaned_data['alarm_percentage']
+                }
             }
-        }
-        response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        if response.status_code == 200:
-            return redirect(f'/mojaloops/participants/{name}')
-        else:
-            json_response = response.json();
-            context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
-            return redirect(f'/mojaloops/participants/{name}')
+            response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+            if response.status_code == 200:
+                return redirect(f'/mojaloops/participants/{name}')
+            else:
+                json_response = response.json();
+                form = LimitForm(initial=request.POST)
+                context = {"form":form, "name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
+                return render(request, "participant-limit-form.html", context)
     else:
         form = LimitForm()
         context = {"form": form, "participant_name": name, "form_type":"Add"}
@@ -143,21 +192,23 @@ def update_participant_limit(request, name, limit_type):
     if request.method == 'POST':
         form = LimitForm(request.POST)
 
-        put_data = {
-            "currency": form.clean_data['currency'],
-            "limit": {
-                "type": form.clean_data['limit_type'],
-                "value": form.clean_data['limit_value'],
-                "alarmPercentage": form.clean_data['alarm_percentage']
+        if form.is_valid():
+            put_data = {
+                "currency": form.cleaned_data['currency'],
+                "limit": {
+                    "type": form.cleaned_data['limit_type'],
+                    "value": form.cleaned_data['limit_value'],
+                    "alarmPercentage": form.cleaned_data['alarm_percentage']
+                }
             }
-        }
-        response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        if response.status_code == 200:
-            return redirect(f'/mojaloops/participants/{name}')
-        else:
-            json_response = response.json();
-            context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
-            return redirect(f'/mojaloops/participants/{name}')
+            response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+            if response.status_code == 200:
+                return redirect(f'/mojaloops/participants/{name}')
+            else:
+                json_response = response.json();
+                form = LimitForm(initial=request.POST)
+                context = {"form":form, "name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
+                return render(request, "participant-limit-form.html", context)
     else:
         response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
         limits = response.json();
@@ -180,17 +231,18 @@ def add_participant_endpoint(request, name):
     if request.method == 'POST':
         form = ParticipantEndpointForm(request.POST)
 
-        put_data = {
-            "type": form.clean_data['type'],
-            "value": form.clean_data['value'],
-        }
-        response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        if response.status_code == 200:
-            return redirect(f'/mojaloops/participants/{name}')
-        else:
-            json_response = response.json();
-            context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
-            return redirect(f'/mojaloops/participants/{name}')
+        if form.is_valid():
+            put_data = {
+                "type": form.cleaned_data['type'],
+                "value": form.cleaned_data['value'],
+            }
+            response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+            if response.status_code == 200:
+                return redirect(f'/mojaloops/participants/{name}')
+            else:
+                json_response = response.json();
+                context = {"form":form, "name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
+                return render(request, "participant-endpoint-form.html", context)
     else:
         form = ParticipantEndpointForm()
         context = {"form": form, "participant_name": name, "form_type":"Add"}
@@ -202,17 +254,18 @@ def update_participant_endpoint(request, name, endpoint_type):
     if request.method == 'POST':
         form = ParticipantEndpointForm(request.POST)
 
-        put_data = {
-            "type": form.clean_data['type'],
-            "value": form.clean_data['value'],
-        }
-        response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        if response.status_code == 200:
-            return redirect(f'/mojaloops/participants/{name}')
-        else:
-            json_response = response.json();
-            context = {'error': json_response.get("errorInformation", {}).get("errorDescription")}
-            return redirect(f'/mojaloops/participants/{name}')
+        if form.is_valid():
+            put_data = {
+                "type": form.cleaned_data['type'],
+                "value": form.cleaned_data['value'],
+            }
+            response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+            if response.status_code == 200:
+                return redirect(f'/mojaloops/participants/{name}')
+            else:
+                json_response = response.json();
+                context = {"form":form, "name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
+                return render(request, "participant-endpoint-form.html", context)
     else:
         response =  requests.get(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'})
         endpoints = response.json();
@@ -241,6 +294,7 @@ def create_settlement_model(request):
 
     if request.method == 'POST':
         form = SettlementModelsForm(request.POST)
+
         if form.is_valid():
             name = form.cleaned_data['name']
             
@@ -260,8 +314,8 @@ def create_settlement_model(request):
                 return redirect(f'/settlementmodel/{name}')
             else:
                 json_response = response.json();
-                context = {"form": form}
-                context.append({'error': json_response.get("errorInformation", {}).get("errorDescription")})
+                form = SettlementModelsForm(initial=request.POST)
+                context = {"form":form, "name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
                 return render(request, "settlement-model-form.html", context)
     else:
         form = SettlementModelsForm()

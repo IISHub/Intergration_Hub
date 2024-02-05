@@ -11,6 +11,8 @@
     <h1 class="h3">{{form_type}} a participant's endpoint</h1>
 </div>
 <form {% if form_type == "Update" %} action="{% url 'update-participant-endpoint' name=participant_name endpoint_type=endpoint_type %}" {% else %} action="{% url 'create-participant-endpoint' name=participant_name %}" {% endif %} method="post">
+    {% if error %}<div class="alert alert-warning" role="alert">{{error}}</div>{% endif %}
+    
     {% csrf_token %}
     {{form|crispy}}
     <br>

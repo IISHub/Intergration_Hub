@@ -56,7 +56,7 @@
                         <td>{{participant.limit.type}}</td>
                         <td>{{participant.limit.value}}</td>
                         <td>{{participant.limit.alarmPercentage}}</td>
-                        <td><a href="{% url "update-participant-limit" name=participant.name limit_type=participant.limit.type %}" class="btn btn-sm btn-info">Update</a></td>        
+                        <td><a href="{% url "update-participant-limit" name=participant.name limit_type=participant.limit.type %}" class="btn btn-sm btn-info"><i class="ti ti-edit"></i> Update</a></td>        
                     </tr>
                     {% endfor %}
   

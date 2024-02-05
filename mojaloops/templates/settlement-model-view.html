@@ -46,11 +46,11 @@
 </table>
 <br>
 <div class="d-flex justify-content-between">
-    <a href="" class="btn btn-sm btn-info">Update</a>
+    <a href="" class="btn btn-sm btn-info"><i class="ti ti-edit"></i> Update</a>
     {% if settlementmodel.isActive == 1 %}
-    <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='false' %}" class="btn btn-sm btn-danger">Deactivate</a>
+    <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
     {% else %}
-    <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='true' %}" class="btn btn-sm btn-success">Activate</a>
+    <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='true' %}" class="btn btn-sm btn-success"><i class="ti ti-activity"></i> Activate</a>
     {% endif %}
 </div>
 <br>

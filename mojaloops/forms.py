@@ -28,7 +28,7 @@ class ParticipantEndpointForm(forms.Form):
 
 class HubAccountForm(forms.Form):
     currency = forms.ChoiceField(choices=paired_currencies, required=True, label="Currency")
-    type = forms.CharField(max_length=250, label="Type", required=True)
+    type = forms.ChoiceField(choices=[("INTERCHANGE_FEE", "INTERCHANGE_FEE"), ("POSITION", "POSITION"), ("SETTLEMENT", "SETTLEMENT")], label="Type", required=True)
 
 class SettlementModelsForm(forms.Form):
     name = forms.CharField(max_length=255, label="Name", required=True)
@@ -39,3 +39,10 @@ class SettlementModelsForm(forms.Form):
     ledgerAccountType = forms.ChoiceField(choices=[("INTERCHANGE_FEE", "INTERCHANGE_FEE"), ("POSITION", "POSITION")], label="Ledger Account Type", required=True)
     autoPositionReset = forms.BooleanField(label="Auto Position Reset", required=True)
     settlementAccountType = forms.ChoiceField(choices=[("POSITION", "POSITION"), ("SETTLEMENT", "SETTLEMENT"), ("INTERCHANGE_FEE_SETTLEMENT", "INTERCHANGE_FEE_SETTLEMENT")], label="Settlement Account Type", required=True)
+
+class RecordTransactionForm(forms.Form):
+    transfer_id = forms.CharField(max_length=255, required=True, label="Transfer ID")
+    external_reference = forms.CharField(required=True, max_length=100, label="External Reference")
+    action = forms.ChoiceField(choices=[("recordFundsIn", "recordFundsIn"), ("recordFundsOutPrepareReserve", "recordFundsOutPrepareReserve")], label="Action", required=True)
+    amount = forms.FloatField(label="Amount");
+    currency = forms.ChoiceField(choices=paired_currencies, required=True, label="Currency")
