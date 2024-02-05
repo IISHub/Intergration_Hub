@@ -54,7 +54,12 @@
                       <td>{{participant.created}}</td>
                       <td>{% if participant.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</td>
                       <td>{% for account in participant.accounts %}{{account.ledgerAccountType}}, {% endfor %}</td>
-                      <td></td>
+                      <td>{% if participant.isActive == 1 %}
+                        <a href="{% url "update-participant-activity" name=participant.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
+                        {% else %}
+                        <a href="{% url "update-participant-activity" name=participant.name activity='true' %}" class="btn btn-sm btn-success"><i class="ti ti-activity"></i> Activate</a>
+                        {% endif %}
+                      </td>
                   </tr>
                 {% endfor %}
 
