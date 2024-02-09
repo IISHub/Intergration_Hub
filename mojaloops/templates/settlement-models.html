@@ -42,13 +42,8 @@
                   <th>Name</th>
                   <th>Granularity</th>
                   <th>Interchange</th>
-                  <th>Delay</th>
-                  <th>Liquidity Check</th>
-                  <th>Ledger Account Type</th>
-                  <th>Position Reset</th>
-                  <th>Settlement Account Type</th>
-                  <th>Activity</th>
-                  <th></th>
+                  <th>Currency</th>
+                  <th>Actions</th>
               </tr>
                 <!-- end row -->
               </thead>
@@ -58,13 +53,13 @@
                       <td><a href="{% url 'get-settlement-model' settlementmodel.name %}" class="">{{settlementmodel.name}}</a></td>
                       <td>{{settlementmodel.settlementGranularity}}</td>
                       <td>{{settlementmodel.settlementInterchange}}</td>
-                      <td>{{settlementmodel.settlementDelay}}</td>
-                      <td>{{settlementmodel.requireLiquidityCheck}}</td>
-                      <td>{{settlementmodel.ledgerAccountType}}</td>
-                      <td>{{settlementmodel.autoPositionReset}}</td>
-                      <td>{{settlementmodel.settlementAccountType}}</td>
-                      <td>{% if settlementmodel.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</td>
-                      <td></td>
+                      <td>{{settlementmodel.currency}}</td>
+                      <td>{% if settlementmodel.isActive == 1 %}
+                        <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
+                        {% else %}
+                        <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='true' %}" class="btn btn-sm btn-success"><i class="ti ti-activity"></i> Activate</a>
+                        {% endif %}
+                      </td>
                   </tr>
               {% endfor %}
               </tbody>

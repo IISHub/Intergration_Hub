@@ -3,7 +3,7 @@ import requests
 
 from django.shortcuts import redirect, render
 
-from mojaloops.forms import CreateParticipantForm, HubAccountForm, LimitForm, ParticipantEndpointForm, RecordTransactionForm, SettlementModelsForm
+from mojaloops.forms import CreateParticipantForm, HubAccountForm, InitialPositionAndLimitForm, ParticipantAccountForm, LimitForm, ParticipantEndpointForm, RecordTransactionForm, SettlementModelsForm
 
 base_url = 'http://central-ledger.local'
 
@@ -81,17 +81,19 @@ def view_participant(request, name):
 
 def update_participant_activity(request, name, activity):
     endpoint = base_url + '/participants/' + name
+    previous_page = request.META.get('HTTP_REFERER', None)
 
     if request.method == 'GET':
         put_data = {"isActive": activity}
         requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        return redirect('get-participant', name=name)
+        return redirect(previous_page)
     
 def add_participant_account(request, name):
     endpoint = base_url + '/participants/' + name + '/accounts'
 
     if request.method == 'POST':
-        form = HubAccountForm(request.POST)
+        if name == 'Hub': form = HubAccountForm(request.POST)
+        else: form = ParticipantAccountForm(request.POST)
 
         if form.is_valid():
             put_data = {
@@ -103,21 +105,24 @@ def add_participant_account(request, name):
                 return redirect('get-participant', name=name)
             else:
                 json_response = response.json();
-                form = HubAccountForm(initial=request.POST)
+                if name == 'Hub': form = HubAccountForm(initial=request.POST)
+                else: form = ParticipantAccountForm(initial=request.POST)
                 context = {"form":form, "participant_name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
                 return render(request, "participant-account-form.html", context)
     else:
-        form = HubAccountForm()
+        if name == 'Hub': form = HubAccountForm()
+        else: form = ParticipantAccountForm()
         context = {"form": form, "participant_name": name, "form_type":"Add"}
         return render(request, "participant-account-form.html", context)
     
 def update_participant_account_activity(request, name, id, activity):
-    endpoint = base_url + '/participants/' + name + '/accounts/' + str(id) 
+    endpoint = base_url + '/participants/' + name + '/accounts/' + str(id)
+    previous_page = request.META.get('HTTP_REFERER', None)
 
     if request.method == 'GET':
         put_data = {"isActive": activity}
         requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        return redirect('get-participant', name=name)
+        return redirect(previous_page)
     
 def record_participant_transfer(request, name, id):
     endpoint = base_url + '/participants/' + name + '/accounts/' + str(id) 
@@ -159,30 +164,30 @@ def record_participant_transfer(request, name, id):
         return render(request, "participant-transfer-record-form.html", context)
         
 def add_participant_limit(request, name):
-    endpoint = base_url + '/participants/' + name + '/limits'
-
+    endpoint = base_url + '/participants/' + name + '/initialPositionAndLimits'
+        
     if request.method == 'POST':
-        form = LimitForm(request.POST)
+        form = InitialPositionAndLimitForm(request.POST)
 
         if form.is_valid():
             put_data = {
                 "currency": form.cleaned_data['currency'],
                 "limit": {
                     "type": form.cleaned_data['limit_type'],
-                    "value": form.cleaned_data['limit_value'],
-                    "alarmPercentage": form.cleaned_data['alarm_percentage']
-                }
+                    "value": form.cleaned_data['limit_value']
+                },
+                "initialPosition": form.cleaned_data['initial_position']
             }
-            response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-            if response.status_code == 200:
+            response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+            if response.status_code == 201:
                 return redirect('get-participant', name=name)
             else:
                 json_response = response.json();
-                form = LimitForm(initial=request.POST)
-                context = {"form":form, "participant_name":name, "account":id, "form_type":"Record", "error": json_response.get("errorInformation", {}).get("errorDescription")}
+                form = InitialPositionAndLimitForm(initial=request.POST)
+                context = {"form":form, "participant_name":name, "account":id, "form_type":"Add", "error": json_response.get("errorInformation", {}).get("errorDescription")}
                 return render(request, "participant-limit-form.html", context)
     else:
-        form = LimitForm()
+        form = InitialPositionAndLimitForm()
         context = {"form": form, "participant_name": name, "form_type":"Add"}
         return render(request, "participant-limit-form.html", context)
     
@@ -236,8 +241,8 @@ def add_participant_endpoint(request, name):
                 "type": form.cleaned_data['type'],
                 "value": form.cleaned_data['value'],
             }
-            response = requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-            if response.status_code == 200:
+            response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
+            if response.status_code == 201:
                 return redirect('get-participant', name=name)
             else:
                 json_response = response.json();
@@ -301,11 +306,12 @@ def create_settlement_model(request):
             post_data = {
                 "name": form.cleaned_data["name"],
                 "settlementGranularity": form.cleaned_data["settlementGranularity"],
-                "settlementIntercharge": form.cleaned_data["settlementIntercharge"],
+                "settlementInterchange": form.cleaned_data["settlementInterchange"],
                 "settlementDelay": form.cleaned_data["settlementDelay"],
-                "requiredLiquidityCheck": form.cleaned_data["requiredLiquidityCheck"],
+                "requireLiquidityCheck": form.cleaned_data["requireLiquidityCheck"],
                 "ledgerAccountType": form.cleaned_data["ledgerAccountType"],
                 "autoPositionReset": form.cleaned_data["autoPositionReset"],
+                "currency": form.cleaned_data["currency"],
                 "settlementAccountType": form.cleaned_data["settlementAccountType"],
             }
 
@@ -334,8 +340,9 @@ def view_settlement_model(request, name):
             
 def update_settlement_model_activity(request, name, activity):
     endpoint = base_url + '/settlementModels/' + name
+    previous_page = request.META.get('HTTP_REFERER', None)
 
     if request.method == 'GET':
         put_data = {"isActive": activity}
         requests.put(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(put_data))
-        return redirect('get-settlement-model', name=name)
+        return redirect(previous_page)

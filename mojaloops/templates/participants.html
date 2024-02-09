@@ -34,6 +34,9 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
+          <div class="mb-2">
+            <h5 class="mb-0">Scroll - Horizontal</h5>
+          </div>
           <div class="table-responsive">
             <table id="scroll_hor" class="table border table-striped table-bordered text-nowrap" style="width: 100%">
               <thead>
@@ -41,8 +44,6 @@
                 <tr>
                   <th>Name</th>
                   <th>Created</th>
-                  <th>Activity</th>
-                  <th>Accounts</th>
                   <th>Actions</th>
                 </tr>
                 <!-- end row -->
@@ -52,8 +53,6 @@
                   <tr>
                       <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
                       <td>{{participant.created}}</td>
-                      <td>{% if participant.isActive == 1 %}Enabled{% else %}Disabled{% endif %}</td>
-                      <td>{% for account in participant.accounts %}{{account.ledgerAccountType}}, {% endfor %}</td>
                       <td>{% if participant.isActive == 1 %}
                         <a href="{% url "update-participant-activity" name=participant.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
                         {% else %}

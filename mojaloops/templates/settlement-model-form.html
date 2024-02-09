@@ -10,7 +10,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h3">Add a new Settlement Model</h1>
 </div>
-<form action="{% url 'create-participant' %}" method="post">
+<form action="{% url 'create-settlement-model' %}" method="post">
     {% if error %}<div class="alert alert-warning" role="alert">{{error}}</div>{% endif %}
     
     {% csrf_token %}

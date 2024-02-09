@@ -18,6 +18,8 @@
   <title>{% block title %}{% endblock title %}</title>
   <!-- Owl Carousel  -->
   <link rel="stylesheet" href="{% static 'assets/libs/owl.carousel/dist/assets/owl.carousel.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css' %}" />
+  
 </head>
 
 <body>
@@ -73,7 +75,7 @@
                 </li>
               </ul>
             </li>
-            <li class="sidebar-item">
+            {% comment %} <li class="sidebar-item">
               <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                 <span class="d-flex">
                   <i class="ti ti-chart-donut-3"></i>
@@ -90,7 +92,7 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> {% endcomment %}
             <li class="sidebar-item">
               <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                 <span class="d-flex">
