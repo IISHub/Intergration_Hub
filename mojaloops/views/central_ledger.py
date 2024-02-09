@@ -133,7 +133,7 @@ def record_participant_transfer(request, name, id):
         if form.is_valid():
             post_data = {
                 "transferID": form.cleaned_data['transfer_id'],
-                "externalReferences": form.cleaned_data['external_references'],
+                "externalReferences": form.cleaned_data['external_reference'],
                 "action": form.cleaned_data['action'],
                 "reason": form.cleaned_data['reason'],
                 "amount": {
@@ -151,7 +151,7 @@ def record_participant_transfer(request, name, id):
             }
 
             response = requests.post(url=endpoint, headers={'Content-Type': 'application/json;charset=utf-8'}, data=json.dumps(post_data))
-            if response.status_code == 200:
+            if response.status_code == 202:
                 return redirect('get-participant', name=name)
             else:
                 json_response = response.json();

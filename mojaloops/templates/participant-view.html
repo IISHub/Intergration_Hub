@@ -30,7 +30,8 @@
         <tr>
             <th>Ledger Account Type</th>
             <th>Currency</th>
-            <th>Is Active</th>
+            <th>Value</th>
+            <th>Reserved Value</th>
             <th>Created Date</th>
             <th>Actions</th>
         </tr>
@@ -40,7 +41,8 @@
         <tr>
             <td>{{ account.ledgerAccountType }}</td>
             <td>{{ account.currency }}</td>
-            <td>{% if account.isActive == 1 %}True{% else %}False{% endif %}</td>
+            <td>{{ account.value }}</td>
+            <td>{{ account.reservedValue }}</td>
             <td>{{ account.createdDate }}</td>
             <td>
                 {% if account.isActive == 1 %}

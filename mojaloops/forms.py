@@ -58,5 +58,6 @@ class RecordTransactionForm(forms.Form):
     transfer_id = forms.CharField(max_length=255, required=True, label="Transfer ID")
     external_reference = forms.CharField(required=True, max_length=100, label="External Reference")
     action = forms.ChoiceField(choices=[("recordFundsIn", "recordFundsIn"), ("recordFundsOutPrepareReserve", "recordFundsOutPrepareReserve")], label="Action", required=True)
-    amount = forms.FloatField(label="Amount", min_value=0);
+    reason = forms.CharField(label="Reason", required=True, max_length=255)
+    amount = forms.FloatField(label="Amount", min_value=0)
     currency = forms.ChoiceField(choices=paired_currencies, required=True, label="Currency")
