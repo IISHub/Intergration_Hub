@@ -2,7 +2,7 @@ from django import forms
 
 # currency_field_list = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF", "CHF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRO", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SPL", "SRD", "STD", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VEF", "VND", "VUV", "WST", "XAF", "XCD", "XDR", "XOF", "XPF", "XTS", "YER", "ZAR", "ZMW", "ZWD"]
 
-currency_field_list = ["USD", "ZMW"]
+currency_field_list = ["INR", "USD", "ZMW"]
 
 paired_currencies = [(currency, currency) for currency in currency_field_list]
 
@@ -14,6 +14,10 @@ paired_enpoint_types = [(endpoint_type, endpoint_type) for endpoint_type in enpo
 limit_types_field_list = ["NET_DEBIT_CAP"]
 
 paired_limit_types = [(limit_type, limit_type) for limit_type in limit_types_field_list]
+
+oracle_id_types_field_list = ["MSISDN", "EMAIL", "PERSONAL_ID", "BUSINESS", "DEVICE", "ACCOUNT_ID", "IBAN", "ALIAS"]
+
+paired_oracle_id_types = [(oracle_id_type, oracle_id_type) for oracle_id_type in oracle_id_types_field_list]
 
 class CreateParticipantForm(forms.Form):
     name = forms.CharField(max_length=50, required=True, label="Name")
@@ -60,4 +64,9 @@ class RecordTransactionForm(forms.Form):
     action = forms.ChoiceField(choices=[("recordFundsIn", "recordFundsIn"), ("recordFundsOutPrepareReserve", "recordFundsOutPrepareReserve")], label="Action", required=True)
     reason = forms.CharField(label="Reason", required=True, max_length=255)
     amount = forms.FloatField(label="Amount", min_value=0)
+    currency = forms.ChoiceField(choices=paired_currencies, required=True, label="Currency")
+
+class CreateOracleForm(forms.Form):
+    oracle_id_type = forms.ChoiceField(choices=paired_oracle_id_types,label="Oracle ID Type", required=True)
+    endpoint = forms.CharField(max_length=255, required=True, label="Endpoint")
     currency = forms.ChoiceField(choices=paired_currencies, required=True, label="Currency")
