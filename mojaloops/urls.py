@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import payment_manager, central_ledger
+from .views import payment_manager, central_ledger, account_lookup_service
 
 urlpatterns = [
     path('sendmoney/', payment_manager.send_money),
@@ -28,4 +28,8 @@ urlpatterns = [
     path('settlementmodel/create', central_ledger.create_settlement_model, name="create-settlement-model"),
     path('settlementmodel/<str:name>', central_ledger.view_settlement_model, name="get-settlement-model"),
     path('settlementmodel/<str:name>/activity/<str:activity>', central_ledger.update_settlement_model_activity, name="update-settlement-model-activity"),
+
+    path('oracles', account_lookup_service.get_oracles, name="oracles"),
+    # path('oracle/create', account_lookup_service.create_oracle, name="create-oracle"),
+    # path('oracle/<int:oracle_id>', account_lookup_service.update_or_delete_oracle, name="oracle"),
 ]

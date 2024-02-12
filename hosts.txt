@@ -1,0 +1,38 @@
+WINDOWS CONFIGURATION:
+
+Step 1: Open notepad as administrator
+
+Step 2: Open the host file which can be found at C: -> Windows -> System32 -> drivers -> etc -> host (file)
+
+Step 3: Add the following mappings # localhost name resolution is handled within DNS itself.
+
+34.134.187.106  ml-api-adapter.local 
+34.134.187.106  central-ledger.local 
+34.134.187.106  account-lookup-service.local 
+34.134.187.106  account-lookup-service-admin.local 
+34.134.187.106  quoting-service.local 
+34.134.187.106  central-settlement-service.local 
+34.134.187.106  transaction-request-service.local 
+34.134.187.106  central-settlement.local 
+34.134.187.106  bulk-api-adapter.local 
+34.134.187.106  moja-simulator.local 
+34.134.187.106  sim-payerfsp.local 
+34.134.187.106  sim-payeefsp.local 
+34.134.187.106  sim-testfsp1.local 
+34.134.187.106  sim-testfsp2.local 
+34.134.187.106  sim-testfsp3.local 
+34.134.187.106  sim-testfsp4.local 
+34.134.187.106  mojaloop-simulators.local 
+34.134.187.106  finance-portal.local 
+34.134.187.106  operator-settlement.local 
+34.134.187.106  settlement-management.local 
+34.134.187.106  testing-toolkit.local 
+34.134.187.106  testing-toolkit-specapi.local
+
+LINUX CONFIGURATION:
+
+Step 1: Navigate to /etc/ and open hosts file using either nano or vim
+
+Step 2: Add the line below and save the file
+
+34.134.187.106 ml-api-adapter.local central-ledger.local account-lookup-service.local account-lookup-service-admin.local quoting-service.local central-settlement-service.local transaction-request-service.local central-settlement.local bulk-api-adapter.local moja-simulator.local sim-payerfsp.local sim-payeefsp.local sim-testfsp1.local sim-testfsp2.local sim-testfsp3.local sim-testfsp4.local mojaloop-simulators.local finance-portal.local operator-settlement.local settlement-management.local testing-toolkit.local testing-toolkit-specapi.local
