@@ -5,69 +5,45 @@
 {% block title %}Participants{% endblock %}
 
 {% block content %}
-<div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
-    <div class="card-body px-4 py-3">
-      <div class="row align-items-center">
-        <div class="col-9">
-          <h4 class="fw-semibold mb-8">Participants</h4>
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a class="text-muted text-decoration-none" href="{% url "dashboard" %}">Home</a>
-              </li>
-              <li class="breadcrumb-item" aria-current="page">Participants</li>
-            </ol>
-          </nav>
-        </div>
-        <div class="col-3">
-          <div class="text-center mb-n5">
-            <img src="../assets/images/breadcrumb/ChatBc.png" alt="" class="img-fluid mb-n4">
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
 
-<div class="datatables">
-  <!-- basic table -->
-  <div class="row">
-    <div class="col-12">
+
+<div class="row mb-4">
+  <div class="col-lg-12 col-md-6">
       <div class="card">
-        <div class="card-body">
-          <div class="mb-2">
-            <h5 class="mb-0">Scroll - Horizontal</h5>
+          <div class="card-header">
+              <h3 class="card-title">{{oracle_id_type}}</h3>
           </div>
-          <div class="table-responsive">
-            <table id="scroll_hor" class="table border table-striped table-bordered text-nowrap" style="width: 100%">
-              <thead>
-                <!-- start row -->
-                <tr>
-                  <th>Name</th>
-                  <th>Created</th>
-                  <th>Actions</th>
-                </tr>
-                <!-- end row -->
-              </thead>
-              <tbody>
-                {% for participant in participants %}
-                  <tr>
-                      <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
-                      <td>{{participant.created}}</td>
-                      <td>{% if participant.isActive == 1 %}
-                        <a href="{% url "update-participant-activity" name=participant.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
-                        {% else %}
-                        <a href="{% url "update-participant-activity" name=participant.name activity='true' %}" class="btn btn-sm btn-success"><i class="ti ti-activity"></i> Activate</a>
-                        {% endif %}
-                      </td>
-                  </tr>
-                {% endfor %}
-
-              </tbody>
-            </table>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
+                    <thead>
+                      <!-- start row -->
+                      <tr>
+                        <th>Name</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                      </tr>
+                      <!-- end row -->
+                    </thead>
+                    <tbody>
+                      {% for participant in participants %}
+                        <tr>
+                            <td><a href="{% url 'get-participant' participant.name %}" class="">{{participant.name}}</a></td>
+                            <td>{{participant.created}}</td>
+                            <td>{% if participant.isActive == 1 %}
+                              <a href="{% url 'update-participant-activity' name=participant.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
+                              {% else %}
+                              <a href="{% url 'update-participant-activity' name=participant.name activity='true' %}" class="btn btn-sm btn-success"><i class="ti ti-activity"></i> Activate</a>
+                              {% endif %}
+                            </td>
+                        </tr>
+                      {% endfor %}
+      
+                    </tbody>
+                  </table>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
 </div>
 <script>

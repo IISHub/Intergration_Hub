@@ -5,69 +5,46 @@
 {% block title %}Settlement Models{% endblock %}
 
 {% block content %}
-<div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
-    <div class="card-body px-4 py-3">
-      <div class="row align-items-center">
-        <div class="col-9">
-          <h4 class="fw-semibold mb-8">Settlement Models</h4>
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a class="text-muted text-decoration-none" href="{% url "dashboard" %}">Home</a>
-              </li>
-              <li class="breadcrumb-item" aria-current="page">Settlement Models</li>
-            </ol>
-          </nav>
-        </div>
-        <div class="col-3">
-          <div class="text-center mb-n5">
-            <img src="../assets/images/breadcrumb/ChatBc.png" alt="" class="img-fluid mb-n4">
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
 
-<div class="datatables">
-  <!-- basic table -->
-  <div class="row">
-    <div class="col-12">
+<div class="row mb-4">
+  <div class="col-lg-12 col-md-6">
       <div class="card">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table id="scroll_hor" class="table border table-striped table-bordered text-nowrap">
-              <thead>
-                <!-- start row -->
-                <tr>
-                  <th>Name</th>
-                  <th>Granularity</th>
-                  <th>Interchange</th>
-                  <th>Currency</th>
-                  <th>Actions</th>
-              </tr>
-                <!-- end row -->
-              </thead>
-              <tbody>
-                {% for settlementmodel in settlementmodels %}
-                  <tr>
-                      <td><a href="{% url 'get-settlement-model' settlementmodel.name %}" class="">{{settlementmodel.name}}</a></td>
-                      <td>{{settlementmodel.settlementGranularity}}</td>
-                      <td>{{settlementmodel.settlementInterchange}}</td>
-                      <td>{{settlementmodel.currency}}</td>
-                      <td>{% if settlementmodel.isActive == 1 %}
-                        <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
-                        {% else %}
-                        <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='true' %}" class="btn btn-sm btn-success"><i class="ti ti-activity"></i> Activate</a>
-                        {% endif %}
-                      </td>
-                  </tr>
-              {% endfor %}
-              </tbody>
-            </table>
+          <div class="card-header">
           </div>
-        </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
+                    <thead>
+                      <!-- start row -->
+                      <tr>
+                        <th>Name</th>
+                        <th>Granularity</th>
+                        <th>Interchange</th>
+                        <th>Currency</th>
+                        <th>Actions</th>
+                    </tr>
+                      <!-- end row -->
+                    </thead>
+                    <tbody>
+                      {% for settlementmodel in settlementmodels %}
+                        <tr>
+                            <td><a href="{% url 'get-settlement-model' settlementmodel.name %}" class="">{{settlementmodel.name}}</a></td>
+                            <td>{{settlementmodel.settlementGranularity}}</td>
+                            <td>{{settlementmodel.settlementInterchange}}</td>
+                            <td>{{settlementmodel.currency}}</td>
+                            <td>{% if settlementmodel.isActive == 1 %}
+                              <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='false' %}" class="btn btn-sm btn-danger"><i class="ti ti-power"></i> Deactivate</a>
+                              {% else %}
+                              <a href="{% url "update-settlement-model-activity" name=settlementmodel.name activity='true' %}" class="btn btn-sm btn-success"><i class="ti ti-activity"></i> Activate</a>
+                              {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+          </div>
       </div>
-    </div>
   </div>
 </div>
 <script>
