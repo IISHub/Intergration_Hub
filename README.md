@@ -1,11 +1,11 @@
-﻿# Mojaloops Integration Example
+﻿# mojaloop Integration Example
 
 This document outlines an example integration with the payment manager
 
 ## Parties Endpoint
 
 ### Endpoint:
-http://104.197.56.193:8000/mojaloops/parties/
+http://104.197.56.193:8000/mojaloop/parties/
 
 Retrieves receiver information
 
@@ -40,7 +40,7 @@ Retrieves receiver information
 ## Quotes Endpoint
 
 ### Endpoint:
-http://104.197.56.193:8000/mojaloops/quotes/
+http://104.197.56.193:8000/mojaloop/quotes/
 
 Retrievies transaction charges
 
@@ -74,7 +74,7 @@ If the ```accept_receiver``` is ```false``` or the reciever information was reje
 ## Transfer Endpoint
 
 ### Endpoint:
-http://104.197.56.193:8000/mojaloops/transfer/
+http://104.197.56.193:8000/mojaloop/transfer/
 
 Sends transfer confirmation
 

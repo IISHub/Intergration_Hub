@@ -5,5 +5,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mojaloops/', include('mojaloops.urls'))
+    path('mojaloop/', include('mojaloop.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

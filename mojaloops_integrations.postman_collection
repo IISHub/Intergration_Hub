@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "8f59aeff-ad2d-4c31-a400-bb2e789aa71a",
-		"name": "Mojaloops",
+		"name": "mojaloop",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23797875"
 	},
@@ -172,7 +172,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://104.197.56.193:8000/mojaloops/sendmoney/",
+							"raw": "http://104.197.56.193:8000/mojaloop/sendmoney/",
 							"protocol": "http",
 							"host": [
 								"104",
@@ -182,7 +182,7 @@
 							],
 							"port": "8000",
 							"path": [
-								"mojaloops",
+								"mojaloop",
 								"sendmoney",
 								""
 							]
@@ -205,7 +205,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mojaloops/parties/",
+							"raw": "http://127.0.0.1:8000/mojaloop/parties/",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -215,7 +215,7 @@
 							],
 							"port": "8000",
 							"path": [
-								"mojaloops",
+								"mojaloop",
 								"parties",
 								""
 							]
@@ -238,7 +238,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mojaloops/quotes/",
+							"raw": "http://127.0.0.1:8000/mojaloop/quotes/",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -248,7 +248,7 @@
 							],
 							"port": "8000",
 							"path": [
-								"mojaloops",
+								"mojaloop",
 								"quotes",
 								""
 							]
@@ -271,7 +271,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mojaloops/transfer/",
+							"raw": "http://127.0.0.1:8000/mojaloop/transfer/",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -281,7 +281,7 @@
 							],
 							"port": "8000",
 							"path": [
-								"mojaloops",
+								"mojaloop",
 								"transfer",
 								""
 							]

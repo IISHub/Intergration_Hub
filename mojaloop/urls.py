@@ -14,6 +14,9 @@ urlpatterns = [
     path('participant/<str:name>', central_ledger.view_participant, name="get-participant"),
     path('participant/<str:name>/activity/<str:activity>', central_ledger.update_participant_activity, name="update-participant-activity"),
 
+    path('ledgeraccounts', central_ledger.get_ledger_account_types, name="ledger-accounts"),
+    path('ledgeraccounts/create', central_ledger.add_ledger_account_type, name="create-ledger-accounts"),
+
     path('participant/<str:name>/accounts', central_ledger.add_participant_account, name="create-participant-account"),
     path('participant/<str:name>/accounts/<int:id>/activity/<str:activity>', central_ledger.update_participant_account_activity, name="update-account-activity"),
     path('participant/<str:name>/accounts/<int:id>', central_ledger.record_participant_transfer, name="record-participant-transfer"),
@@ -31,6 +34,6 @@ urlpatterns = [
 
     path('oracles', account_lookup_service.get_oracles, name="oracles"),
     path('oracle/create', account_lookup_service.create_oracle, name="create-oracle"),
-    path('oracle/<int:oracle_id_type>/<int:oracle_id>', account_lookup_service.update_oracle, name="update-oracle"),
-    path('oracle/<int:oracle_id_type>/<int:oracle_id>', account_lookup_service.delete_oracle, name="delete-oracle"),
+    path('oracle/<int:oracle_id_type>/<int:oracle_id>', account_lookup_service.update_oracle, name="update-oracle"), # TODO: Complete view
+    path('oracle/delete/<int:oracle_id>', account_lookup_service.delete_oracle, name="delete-oracle"),
 ]

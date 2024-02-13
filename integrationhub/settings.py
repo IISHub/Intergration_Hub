@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'mojaloops',
+    'mojaloop',
     'rest_framework',
     'crispy_forms',
     'crispy_bootstrap5'

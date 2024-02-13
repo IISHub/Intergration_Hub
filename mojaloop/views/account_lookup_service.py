@@ -4,7 +4,7 @@ import requests
 from datetime import datetime
 from django.shortcuts import redirect, render
 
-from mojaloops.forms import OracleForm
+from mojaloop.forms import OracleForm
 
 base_url = 'http://account-lookup-service-admin.local'
 
@@ -75,8 +75,12 @@ def create_oracle(request):
         context = {"form": form, "form_type":"Create"}
         return render(request, "oracle-form.html", context)
 
-def update_oracle(request):
+def update_oracle(request, oracle_id_type, oracle_id):
     pass
 
-def delete_oracle(request):
-    pass
+def delete_oracle(request, oracle_id):
+    endpoint = base_url + '/oracles/' + str(oracle_id)
+
+    if request.method == 'GET':
+        response =  requests.delete(url=endpoint, headers=headers)
+        return redirect('oracles')
