@@ -30,6 +30,7 @@ urlpatterns = [
     path('settlementmodel/<str:name>/activity/<str:activity>', central_ledger.update_settlement_model_activity, name="update-settlement-model-activity"),
 
     path('oracles', account_lookup_service.get_oracles, name="oracles"),
-    # path('oracle/create', account_lookup_service.create_oracle, name="create-oracle"),
-    # path('oracle/<int:oracle_id>', account_lookup_service.update_or_delete_oracle, name="oracle"),
+    path('oracle/create', account_lookup_service.create_oracle, name="create-oracle"),
+    path('oracle/<int:oracle_id_type>/<int:oracle_id>', account_lookup_service.update_oracle, name="update-oracle"),
+    path('oracle/<int:oracle_id_type>/<int:oracle_id>', account_lookup_service.delete_oracle, name="delete-oracle"),
 ]

@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for oracle in oracles.0.oracle_id_type %}
+                            {% for oracle in oracles.get(oracle_id_type) %}
                             <tr>
                                 <td>{{oracle.oracleId}}</td>
                                 <td>{{oracle.endpoint.value}}</td>
